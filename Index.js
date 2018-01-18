@@ -41,10 +41,27 @@ var user = firebase.auth().currentUser;
 firebase.auth().onAuthStateChanged(function(user) {
   if (user) {
     // User is signed in.
+    console.log('Autorizado');
   } else {
     // No user is signed in.
+    if(window.location.pathname != '/index.html' && window.location.pathname != '/'){
+      debugger;
+      console.log('NO Autorizado');
+      window.location = 'index.html';
+    }
+
   }
 });
+
+ var salir = function(){
+  firebase.auth().signOut().then(function() {
+    // Sign-out successful.
+    console.log("sesion terminada");
+  }).catch(function(error) {
+    // An error happened.
+    console.log("error: "+error);
+  });
+ }
 
 /**
  * Crear pratillos
@@ -60,23 +77,23 @@ var createPlatillo = function (_nombre, _descripcion, _precio, _imagen) {
     precio: _precio,
     cantidad: 0,
     imagen: _imagen
+  }).then(function(){
+    console.log("Se agregó el plato");
+  }).catch(function(error){
+    alert("Error al agregar plato: "+error);
   });
 };
 
-function subirPlato() {
+function subirPlato(e) {
+  //e.preventDefault();
   var nombre = document.getElementById('nombre').value;
   var descripcion = document.getElementById('descripcion').value;
   var precio = document.getElementById('precio').value;
   precio = parseInt(precio);
   var imagen = document.getElementById('imgDir').value;
-
-  try {
-    createPlatillo(nombre, descripcion, precio, imagen);
-    alert('Se agregó el platillo');
-  } catch (error) {
-    console.log('No se puedo agregar el platillo, erro: ' + error);
-  }
-
+  
+  createPlatillo(nombre, descripcion, precio, imagen);
+  return false;
 }
 
 /**
