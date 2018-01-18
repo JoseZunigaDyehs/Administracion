@@ -186,9 +186,10 @@ var leerPlatillos = function () {
 function eliminarPlatillo(id) {
   db.ref('alimentos/' + id).remove()
     .then(function () {
-      console.log("Remove succeeded.")
+      console.log("Remove succeeded.");
+      window.location = "agregarPlatillo.html";
     })
     .catch(function (error) {
-      console.log("Remove failed: " + error.message)
+      console.log("Remove failed: " + error.message);
     });
 }
